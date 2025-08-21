@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}{{ weather.current.city }} Weather{% endblock %}
+
+{% block content %}
+<div class="columns is-centered">
+    <div class="column is-three-quarters">
+        <div class="card">
+            <div class="card-content">
+                <div class="level">
+                    <div class="level-left">
+                        <h1 class="title">{{ weather.current.city }}, {{ weather.current.country }}</h1>
+                    </div>
+                    <div class="level-right">
+                        <a href="{{ url_for('index') }}" class="button is-info is-light">
+                            <span class="icon">
+                                <i class="fas fa-search"></i>
+                            </span>
+                            <span>Search Again</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="columns">
+                    <!-- Current Weather -->
+                    <div class="column is-half">
+                        <div class="box has-background-info-light">
+                            <div class="media">
+                                <div class="media-left">
+                                    <figure class="image is-64x64">
+                                        <img src="http://openweathermap.org/img/wn/{{ weather.current.icon }}@2x.png" alt="Weather icon">
+                                    </figure>
+                                </div>
+                                <div class="media-content">
+                                    <p class="title is-3">{{ weather.current.temp }}{{ weather.current.units }}</p>
+                                    <p class="subtitle is-5">{{ weather.current.description }}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="content">
+                                <p>Feels like: {{ weather.current.feels_like }}{{ weather.current.units }}</p>
+                                <p>Humidity: {{ weather.current.humidity }}%</p>
+                                <p>Wind: {{ weather.current.wind_speed }} {{ weather.current.speed_units }}</p>
+                                <p>Pressure: {{ weather.current.pressure }} hPa</p>
+                                <p>
+                                    <span class="icon has-text-warning">
+                                        <i class="fas fa-sun"></i>
+                                    </span>
+                                    Sunrise: {{ weather.current.sunrise }}
+                                </p>
+                                <p>
+                                    <span class="icon has-text-warning">
+                                        <i class="fas fa-moon"></i>
+                                    </span>
+                                    Sunset: {{ weather.current.sunset }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 5-Day Forecast -->
+                    <div class="column is-half">
+                        <h2 class="title is-4">5-Day Forecast</h2>
+                        
+                        {% for day in weather.forecast %}
+                        <article class="media">
+                            <figure class="media-left">
+                                <p class="image is-48x48">
+                                    <img src="http://openweathermap.org/img/wn/{{ day.icon }}@2x.png" alt="Weather icon">
+                                </p>
+                            </figure>
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>
+                                        <strong>{{ day.date }}</strong>
+                                        <br>
+                                        {{ day.temp }}{{ weather.current.units }} - {{ day.description }}
+                                        <br>
+                                        Humidity: {{ day.humidity }}%
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
