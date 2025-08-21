@@ -1,0 +1,15 @@
+weather-app/
+│
+├── app.py
+├── requirements.txt
+├── .env
+├── static/
+│   ├── css/
+│   │   └── style.css
+│   └── images/
+│       └── weather-icons/
+│
+└── templates/
+    ├── base.html
+    ├── index.html
+    └── weather.html
