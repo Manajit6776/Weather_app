@@ -11,9 +11,12 @@ app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'weather-app-secret-key')
 
 # OpenWeatherMap API configuration
-API_KEY = os.getenv('OPENWEATHER_API_KEY')
-BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
-FORECAST_URL = "https://api.openweathermap.org/data/2.5/forecast"
+# API_KEY = os.getenv('OPENWEATHER_API_KEY')
+# BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
+# FORECAST_URL = "https://api.openweathermap.org/data/2.5/forecast"
+API_KEY = "e65ecad190msh55277ef9b131cfcp1d172ajsnda09ee42d5fd"
+BASE_URL = "weatherapi-com.p.rapidapi.com"
+FORECAST_URL = "https://weatherapi-com.p.rapidapi.com/alerts.json"
 
 # Weather icon mapping
 WEATHER_ICONS = {
