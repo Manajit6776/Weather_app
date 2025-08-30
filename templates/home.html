@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Demon Slayer Weather – Twin Scroll</title>
+
+    <!-- Bootstrap & Font-Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root{
+            --tanjiro-green:#2d5016;
+            --nezuko-pink:#8b2635;
+            --hashira-red:#b71c1c;
+            --zenitsu-yellow:#f57f17;
+            --breath-blue:#1565c0;
+            --demon-black:#1a1a1a;
+            --sakura-pink:#ffcdd2;
+        }
+
+        *{margin:0;padding:0;box-sizing:border-box;}
+
+        body{
+            font-family:'Noto Sans JP',sans-serif;
+            background:linear-gradient(135deg,var(--demon-black),var(--tanjiro-green),var(--nezuko-pink));
+            background-size:400% 400%;
+            animation:bgShift 20s ease infinite;
+            min-height:100vh;
+            overflow-x:hidden;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:20px;
+        }
+
+        @keyframes bgShift{
+            0%{background-position:0% 50%;}
+            50%{background-position:100% 50%;}
+            100%{background-position:0% 50%;}
+        }
+
+        /* floating petals */
+        .petal{
+            position:fixed;
+            width:14px;height:14px;
+            background:var(--sakura-pink);
+            border-radius:50% 0 50% 0;
+            opacity:.6;
+            animation:fall 18s linear infinite;
+            pointer-events:none;
+            z-index:0;
+        }
+        @keyframes fall{
+            0%{transform:translateY(-100vh) rotate(0deg);opacity:0;}
+            10%{opacity:.6;}
+            90%{opacity:.6;}
+            100%{transform:translateY(100vh) rotate(360deg);opacity:0;}
+        }
+
+        /* twin card layout */
+        .twin-wrapper{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:30px;
+            width:100%;
+            max-width:1100px;
+            z-index:1;
+        }
+
+        .demon-card{
+            background:linear-gradient(135deg,rgba(139,38,53,.25),rgba(45,80,22,.25));
+            backdrop-filter:blur(18px);
+            border:2px solid var(--hashira-red);
+            border-radius:18px;
+            box-shadow:0 8px 32px rgba(183,28,28,.35);
+            padding:40px 30px;
+            color:#fff;
+            display:flex;
+            flex-direction:column;
+            justify-content:flex-start;
+            position:relative;
+            overflow:hidden;
+            min-height:400px;
+        }
+        .demon-card::before{
+            content:'';
+            position:absolute;
+            inset:0;
+            background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"><rect width="30" height="30" fill="none" stroke="%23b71c1c" stroke-width=".5" opacity=".2"/></svg>');
+            pointer-events:none;
+        }
+
+        .card-title{
+            font-family:'Cinzel',serif;
+            font-size:1.8rem;
+            font-weight:700;
+            text-align:center;
+            margin-bottom:25px;
+            color:var(--zenitsu-yellow);
+            text-shadow:0 0 8px rgba(245,127,23,.6);
+        }
+        .header-subtitle{
+            font-family:'Cinzel',serif;
+            font-size:1.0rem;
+            font-weight:400;
+            text-align:center;
+            margin-bottom:5 px;
+            color:var(White);
+            text-shadow:0 0 6px rgba(244, 244, 244, 0);
+        }
+
+        /* form card */
+        .input-demon{
+            background:rgba(139,38,53,.2);
+            border:2px solid var(--nezuko-pink);
+            border-radius:25px;
+            padding:12px 20px;
+            font-size:1.1rem;
+            color:#fff;
+            width:100%;
+            transition:.3s;
+            margin-bottom:20px;
+        }
+        .input-demon:focus{
+            outline:none;
+            border-color:var(--zenitsu-yellow);
+            box-shadow:0 0 15px rgba(245,127,23,.5);
+            background:rgba(245,127,23,.15);
+        }
+        .input-demon::placeholder{color:rgba(255,255,255,.7);}
+
+        .btn-breath{
+            background:linear-gradient(45deg,var(--hashira-red),var(--tanjiro-green));
+            border:none;
+            border-radius:25px;
+            padding:12px 35px;
+            font-family:'Cinzel',serif;
+            font-weight:600;
+            color:#fff;
+            cursor:pointer;
+            transition:.3s;
+            width:100%;
+            text-transform:uppercase;
+            letter-spacing:1px;
+        }
+        .btn-breath:hover{
+            transform:translateY(-2px);
+            box-shadow:0 8px 20px rgba(183,28,28,.4);
+        }
+
+        /* detail card */
+        .detail-area{
+            text-align:center;
+            flex:1;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+        }
+        .location-name{
+            font-family:'Cinzel',serif;
+            font-size:1.9rem;
+            color:var(--zenitsu-yellow);
+            margin-bottom:8px;
+        }
+        .temp-display{
+            font-family:'Orbitron',monospace;
+            font-size:3rem;
+            color:var(--breath-blue);
+            text-shadow:0 0 15px rgba(21,101,192,.7);
+            margin:10px 0;
+        }
+        .condition-icon{
+            width:70px;height:70px;
+            filter:drop-shadow(0 0 8px var(--nezuko-pink));
+            animation:pulse 2s infinite;
+        }
+        @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.1);}}
+
+        .hashira-grid{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:15px;
+            margin-top:20px;
+        }
+        .hashira-item{
+            background:rgba(183,28,28,.15);
+            padding:12px;
+            border-radius:10px;
+            border:1px solid var(--hashira-red);
+            transition:.3s;
+        }
+        .hashira-item:hover{
+            transform:translateY(-3px);
+            box-shadow:0 6px 15px rgba(183,28,28,.3);
+        }
+        .hashira-label{
+            font-size:.85rem;
+            color:var(--zenitsu-yellow);
+            margin-bottom:4px;
+            font-weight:600;
+            text-transform:uppercase;
+            letter-spacing:.5px;
+        }
+        .hashira-value{
+            font-size:1.1rem;
+            font-weight:700;
+        }
+
+        /* error msg */
+        .error-msg{
+            color:var(--nezuko-pink);
+            font-family:'Cinzel',serif;
+            font-size:1.2rem;
+            margin-top:10px;
+            text-align:center;
+            color: var(--sakura-pink);
+        }
+
+        /* responsive */
+        @media(max-width:768px){
+            .twin-wrapper{grid-template-columns:1fr;gap:20px;}
+            .header-title{font-size:1.5rem;}
+            .temp-display{font-size:2.3rem;}
+        }
+    </style>
+</head>
+<body>
+
+<!-- floating petals -->
+<div class="petals" id="petals"></div>
+
+<div class="twin-wrapper">
+    <!-- LEFT CARD : Enter Location -->
+    <div class="demon-card">
+        <h1 class="card-title">
+                    <i class="fas fa-katana"></i>
+                    Real-time Weather!
+                </h1>
+                <p class="header-subtitle">A Real Time Weather App by searching places</p>
+        <form action="/predict_weather" method="POST" style="width:100%;">
+            <input type="text" 
+                   id="location" 
+                   name="location" 
+                   placeholder="Enter Location..." 
+                   class="input-demon"
+                   required>
+            <button type="submit" class="btn-breath">
+                <i class="fas fa-katana"></i> Sense Weather
+            </button>
+        </form>
+        <!-- error -->
+        {% if error %}
+            <div class="error-msg">
+                <i class="fas fa-exclamation-triangle"></i> {{ error }}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- RIGHT CARD : Weather Detail -->
+    <div class="demon-card">
+        <h2 class="card-title"><i class="fas fa-cloud-sun"></i> Element Scroll</h2>
+        <div class="detail-area">
+            {% if name %}
+                <div class="location-name"><i class="fas fa-map-marker-alt"></i> {{ name }}</div>
+                <div class="temp-display">{{ temp_c }}°C / {{ temp_f }}°F</div>
+                <img src="{{ condition_icon }}" alt="condition" class="condition-icon">
+                <div style="color:#ffcdd2;margin-bottom:10px;">{{ condition_text }}</div>
+                <small style="color:#aaa;">Last update: {{ last_updated }}</small>
+                
+                <div class="hashira-grid">
+                    <div class="hashira-item">
+                        <div class="hashira-label">Region</div>
+                        <div class="hashira-value">{{ region }} / {{ country }}</div>
+                    </div>
+                    
+                    <div class="hashira-item">
+                        <div class="hashira-label">Coordinates</div>
+                        <div class="hashira-value">{{ lat }}°N, {{ lon }}°E</div>
+                    </div>
+                    
+                    <div class="hashira-item">
+                        <div class="hashira-label">Time Zone</div>
+                        <div class="hashira-value">{{ tz_id }}</div>
+                    </div>
+                    
+                    <div class="hashira-item">
+                        <div class="hashira-label">Local Time</div>
+                        <div class="hashira-value">{{ localtime }}</div>
+                    </div>
+                    
+                    <div class="hashira-item">
+                        <div class="hashira-label">Wind Speed</div>
+                        <div class="hashira-value">{{ wind_mph }} mph</div>
+                    </div>
+                    
+                    <div class="hashira-item">
+                        <div class="hashira-label">Wind Direction</div>
+                        <div class="hashira-value">{{ wind_dir }}</div>
+                    </div>
+                    
+                    <div class="hashira-item">
+                        <div class="hashira-label">Pressure</div>
+                        <div class="hashira-value">{{ pressure_mb }} mb</div>
+                    </div>
+                    
+                    <div class="hashira-item">
+                        <div class="hashira-label">Humidity</div>
+                        <div class="hashira-value">{{ humidity }}%</div>
+                    </div>
+                    
+                    <div class="hashira-item">
+                        <div class="hashira-label">Feels Like</div>
+                        <div class="hashira-value">{{ feelslike_c }}°C</div>
+                    </div>
+                    
+                    <div class="hashira-item">
+                        <div class="hashira-label">Visibility</div>
+                        <div class="hashira-value">{{ vis_km }} km</div>
+                    </div>
+                    
+                    <div class="hashira-item">
+                        <div class="hashira-label">UV Index</div>
+                        <div class="hashira-value">{{ uv }}</div>
+                    </div>
+                    
+                    <div class="hashira-item">
+                        <div class="hashira-label">Wind Gust</div>
+                        <div class="hashira-value">{{ gust_mph }} mph</div>
+                    </div>
+                </div>
+            {% else %}
+                <div style="color:#aaa;font-size:1.2rem;margin-top:40px;">
+                    <i class="fas fa-scroll"></i> Awaiting intel...
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- bootstrap -->
+
+
+<!-- cherry blossoms -->
+<script>
+    const petals=document.getElementById('petals');
+    for(let i=0;i<25;i++){
+        const p=document.createElement('div'); p.className='petal';
+        p.style.left=Math.random()*100+'%';
+        p.style.animationDelay=Math.random()*15+'s';
+        p.style.animationDuration=(Math.random()*8+10)+'s';
+        petals.appendChild(p);
+    }
+</script>
+</body>
+</html>
