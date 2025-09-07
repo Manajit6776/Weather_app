@@ -48,12 +48,16 @@ The main goal was to create a real-time weather application. The app should allo
 ### Example: Bhubaneswar
 - Search results show temperature, mist, local time, wind, humidity, and more.
 - Clean, color-coded UI for easy readability.
+<img width="1920" height="1080" alt="Screenshot (30)" src="https://github.com/user-attachments/assets/5074bfa0-a150-47ec-aafe-25943256948d" />
+
 <img width="1920" height="1080" alt="Screenshot (31)" src="https://github.com/user-attachments/assets/80047ff2-d71d-4dda-bdf0-dcfd328f3ae2" />
 
 
 ### Example: Delhi
 - Displays location-specific details (e.g., Ontario/Canada for "Delhi" due to API mapping).
 - Sunny weather with relevant stats.
+<img width="1920" height="1080" alt="Screenshot (32)" src="https://github.com/user-attachments/assets/f5b5fcac-17b1-49dc-bab9-03212c4d9bcb" />
+
 <img width="1920" height="1080" alt="Screenshot (33)" src="https://github.com/user-attachments/assets/79a1d032-d13e-4aff-a4e3-33a4557d326d" />
 
 
